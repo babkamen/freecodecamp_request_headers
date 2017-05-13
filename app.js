@@ -1,11 +1,9 @@
 var express = require('express');
 var app = express();
-var url='/api/whoami';
+var requestIp = require('request-ip');
+var url = '/api/whoami';
 app.get(url, function(req, res) {
-	var ip = req.headers['x-forwarded-for'] || 
-     req.connection.remoteAddress || 
-     req.socket.remoteAddress ||
-     req.connection.socket.remoteAddress;
+	var ip = requestIp.getClientIp(req);
 	var r = {
 		ipaddress: ip,
 		language: req.get("accept-language"),
@@ -16,7 +14,7 @@ app.get(url, function(req, res) {
 });
 
 app.get('/', function(req, res) {
-		res.redirect(url);
+	res.redirect(url);
 });
 
 app.set('port', (process.env.PORT || 3000));
