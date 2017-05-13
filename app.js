@@ -2,8 +2,12 @@ var express = require('express');
 var app = express();
 var url='/api/whoami';
 app.get(url, function(req, res) {
+	var ip = req.headers['x-forwarded-for'] || 
+     req.connection.remoteAddress || 
+     req.socket.remoteAddress ||
+     req.connection.socket.remoteAddress;
 	var r = {
-		ipaddress: request.connection.remoteAddress,
+		ipaddress: ip,
 		language: req.get("accept-language"),
 		software: req.get("user-agent")
 	};
