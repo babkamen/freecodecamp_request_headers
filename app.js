@@ -4,10 +4,14 @@ var requestIp = require('request-ip');
 var url = '/api/whoami';
 app.get(url, function(req, res) {
 	var ip = requestIp.getClientIp(req);
+	var lang = req.get("accept-language");
+	lang = lang.substring(0, lang.indexOf(","));
+	var os = req.get("user-agent");
+	os = os.substring(os.indexOf("(")+1, os.indexOf(")"))
 	var r = {
 		ipaddress: ip,
-		language: req.get("accept-language"),
-		software: req.get("user-agent")
+		language: lang,
+		software:os
 	};
 	console.log(JSON.stringify(req.headers));
 	res.send(r);
