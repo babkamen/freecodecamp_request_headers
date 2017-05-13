@@ -3,7 +3,7 @@ var app = express();
 var url='/api/whoami';
 app.get(url, function(req, res) {
 	var r = {
-		ipaddress: req.get("host"),
+		ipaddress: request.connection.remoteAddress,
 		language: req.get("accept-language"),
 		software: req.get("user-agent")
 	};
